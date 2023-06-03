@@ -47,9 +47,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
+          tag_name: vtest
           
-          release_name: ${{ github.ref }}
+          release_name: vtest-name
           prerelease: true
 
       - name: Upload Release Assets
