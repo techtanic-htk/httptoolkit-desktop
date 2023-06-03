@@ -2,17 +2,8 @@ name: CI
 on: push
 jobs:
   build:
-    name: Build & test
-    strategy:
-      matrix:
-        include:
-          - platform: linux
-            os: "ubuntu-20.04"
-          - platform: windows
-            os: "windows-2019"
-          - platform: mac
-            os: "macos-11"
-    runs-on: ${{ matrix.os }}
+    name: Build
+    runs-on: windows-2019
     steps:
       - uses: actions/checkout@v2
 
@@ -36,22 +27,15 @@ jobs:
       - run: npm run build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
-          CSC_LINK: ${{ secrets.CSC_LINK }}
-          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
-          WIN_CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
-          WIN_CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
 
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.platform }}-distributables
+          name: windows-distributables
           path: dist/HttpToolkit-*
           if-no-files-found: error
   publish:
     name: Publish a release
     runs-on: "ubuntu-20.04"
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     needs: build
     steps:
       - name: Get all distributables
