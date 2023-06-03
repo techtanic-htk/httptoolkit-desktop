@@ -33,30 +33,50 @@ jobs:
           name: windows-distributables
           path: dist/HttpToolkit-*
           if-no-files-found: error
+
   publish:
     name: Publish a release
-    runs-on: "ubuntu-20.04"
-    needs: build
+    runs-on: "ubuntu-22.04"
+    needs:
+      - build
+      # - test-distributables
     steps:
-      - name: Get all distributables
+      - name: Get our distributables
         uses: actions/download-artifact@v2
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload server release
+        uses: svenstaro/upload-release-action@v2
         with:
-          tag_name: vtest
-          
-          release_name: vtest-name
-          prerelease: true
+          repo_token: ${{ github.token }}
+          file: ./*/
+          file_glob: true
+          overwrite: true
+          tag: "vtest"
+        
+  # publish:
+  #   name: Publish a release
+  #   runs-on: "ubuntu-20.04"
+  #   needs: build
+  #   steps:
+  #     - name: Get all distributables
+  #       uses: actions/download-artifact@v2
 
-      - name: Upload Release Assets
-        id: upload-release-assets
-        uses: dwenegar/upload-release-assets@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          release_id: ${{ steps.create_release.outputs.id }}
-          assets_path: ./*/
+  #     - name: Create Release
+  #       id: create_release
+  #       uses: actions/create-release@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       with:
+  #         tag_name: vtest
+          
+  #         release_name: vtest-name
+  #         prerelease: true
+
+  #     - name: Upload Release Assets
+  #       id: upload-release-assets
+  #       uses: dwenegar/upload-release-assets@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       with:
+  #         release_id: ${{ steps.create_release.outputs.id }}
+  #         assets_path: ./*/
