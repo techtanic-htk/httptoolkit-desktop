@@ -47,7 +47,7 @@ function softShutdown(token: string) {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
-                'origin': 'https://app.httptoolkit.tech',
+                'origin': 'https://techtanic-htk.github.io',
                 'authorization': `Bearer ${token}`
             }
         });

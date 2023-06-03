@@ -33,7 +33,7 @@ const packageJson = require('../package.json');
 
 const isWindows = os.platform() === 'win32';
 
-const APP_URL = process.env.APP_URL || 'https://app.httptoolkit.tech';
+const APP_URL = process.env.APP_URL || 'https://techtanic-htk.github.io';
 const AUTH_TOKEN = uuid();
 const DESKTOP_VERSION = packageJson.version;
 const BUNDLED_SERVER_VERSION = packageJson.config['httptoolkit-server-version'];
@@ -53,7 +53,7 @@ let windows: Electron.BrowserWindow[] = [];
 
 let server: ChildProcess | null = null;
 
-app.commandLine.appendSwitch('ignore-connections-limit', 'app.httptoolkit.tech');
+app.commandLine.appendSwitch('ignore-connections-limit', 'techtanic-htk.github.io');
 app.commandLine.appendSwitch('disable-renderer-backgrounding');
 app.commandLine.appendSwitch('js-flags', '--expose-gc'); // Expose window.gc in the UI
 
